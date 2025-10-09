@@ -1,0 +1,6 @@
+@MiBlazorMudApp.Backend_HostAddress = http://localhost:5062
+
+GET {{MiBlazorMudApp.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
