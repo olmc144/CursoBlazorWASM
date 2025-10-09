@@ -1,0 +1,75 @@
+#-----------------------------------------------------------------------------------------------------------------
+# .NET Core / C# / F# / Visual Studio Code / JetBrains Rider
+# Creado para Soluciones Multi-Proyecto (Blazor WASM + Web API Backend)
+#-----------------------------------------------------------------------------------------------------------------
+
+## Directorios de Build y Salida
+# Ignorar binarios compilados y carpetas de salida
+[Bb]in/
+[Oo]bj/
+# Archivos de publicación (ej: dotnet publish)
+[Pp]ublish/
+# Archivos de caché de la herramienta de watch (.NET watch)
+.dotnet_watch/
+
+# Paquetes NuGet
+# Ignorar todos los directorios 'packages', excepto si se encuentran en la raíz (raro en .NET Core)
+**/[Pp]ackages/*
+# pero no la carpeta de proyectos si se llama 'Packages'
+!**/[Pp]ackages/
+# Archivos de caché global de NuGet
+.nuget/
+
+#-----------------------------------------------------------------------------------------------------------------
+## Archivos de Base de Datos y Datos Locales
+# Archivos de base de datos local de SQL Server (LocalDB)
+*.mdf
+*.ldf
+# Archivos de base de datos SQLite (comunes para pruebas o desarrollo local)
+*.db
+*.sqlite
+*.sqlite-journal
+
+#-----------------------------------------------------------------------------------------------------------------
+## Visual Studio, IDEs y Logs
+# Caché de Visual Studio (si se usa en Windows o Mac)
+.vs/
+# Archivos de configuración de usuario del proyecto
+*.user
+# Archivos de proyectos temporales
+*.suo
+# Archivos de caché de compilación de Rider (JetBrains IDE)
+.idea/
+.rd/
+# Archivos de log
+*.log
+# Archivos de volcado de memoria
+*.dmp
+
+# Archivos de la herramienta de watch del servidor (Hot Reload/Blazor Server)
+.hotreload
+
+#-----------------------------------------------------------------------------------------------------------------
+## Entity Framework Core (EF Core)
+# Carpeta de migraciones y scripts generados (si decides no versionarlas)
+# Nota: La carpeta 'Migrations' generalmente SÍ se versiona, pero estos son archivos de soporte
+efc.json
+# Archivos de caché del motor de migración
+.efignore
+*.bak
+
+#-----------------------------------------------------------------------------------------------------------------
+## Docker y Entorno de Desarrollo (Dev Containers)
+# Archivos de caché de Docker
+.dockerignore
+# Archivos de caché de la imagen (BuildKit)
+.git/tmp/
+.git/objects/pack/tmp/
+
+# Archivos de configuración y caché de VS Code (workspace)
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/settings.json # (Asegura la exclusión de configuraciones locales)
+
+# Carpeta de configuración de Dev Containers
+.devcontainer/
