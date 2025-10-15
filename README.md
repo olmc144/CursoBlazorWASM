@@ -32,7 +32,7 @@ docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:9.0 dotnet
 docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:9.0 dotnet new webapi -n MiBlazorMudApp.Backend -o MiBlazorMudApp.Backend
 
 # 4. Agregar el proyecto de API a la solución
-dotnet sln add MiBlazorMudApp.Backend/MiBlazorMudApp.Backend.csproj
+dotnet sln MiBlazorMudAppSolution.sln add MiBlazorMudApp.Backend/MiBlazorMudApp.Backend.csproj
 
 # 5. Crear el proyecto Blazor WASM y forzar la salida (-o)
 docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:9.0 dotnet new blazorwasm -n MiBlazorMudApp -o MiBlazorMudApp
@@ -42,6 +42,23 @@ dotnet sln add MiBlazorMudApp/MiBlazorMudApp.csproj
 
 # 7. Agregar el paquete MudBlazor al proyecto Frontend
 dotnet add MiBlazorMudApp/MiBlazorMudApp.csproj package MudBlazor
+
+#8. Crear el Proyecto de Librería .NET Standard
+docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:9.0 \
+dotnet new classlib -n MiBlazorMudApp.DataAccess -o MiBlazorMudApp.DataAccess
+
+# 9. Agregar la Librería a la Solución
+docker run --rm -v "$(pwd):/app" -w /app mcr.microsoft.com/dotnet/sdk:9.0 \
+dotnet sln MiBlazorMudAppSolution.sln add MiBlazorMudApp.Helpers/MiBlazorMudApp.Helpers.csproj
+
+# 10. Añadir una referencia de proyecto del Backend al proyecto de la capa de acceso a datos
+dotnet add MiBlazorMudApp.Backend/MiBlazorMudApp.Backend.csproj reference MiBlazorMudApp.AccessData/MiBlazorMudApp.AccessData.csproj
+
+# 11. Agregar migraciones
+/root/.dotnet/tools/dotnet-ef migrations add InitialMigration
+
+# 12. Actualizar migración
+/root/.dotnet/tools/dotnet-ef database update
 ```
 
 ### 1.2. Solución de Permisos (Candado 🔒)
