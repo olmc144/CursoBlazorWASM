@@ -76,19 +76,28 @@ sudo chown -R $(whoami):$(id -g -n) .
 
 Utilizamos Dev Containers para ejecutar el SDK de .NET 9 en un contenedor aislado, mientras editamos el código en Ubuntu.
 
-### 2.1. Configuración del Contenedor (`.devcontainer/devcontainer.json`)
+### 2.1. Configuración del Contenedor (`.devcontainer/devcontainer.json`) (Opcional)
 Crea la carpeta `.devcontainer` en la raíz de tu proyecto (la carpeta que contiene la subcarpeta `MiBlazorMudAppSolution/`). Dentro, crea el archivo `devcontainer.json`:
 ```bash
 {
-    "name": ".NET 9 Blazor WASM",
-    "image": "[mcr.microsoft.com/dotnet/sdk:9.0](https://mcr.microsoft.com/dotnet/sdk:9.0)",
+    "name": ".NET 9 MiBlazorMud",
+
+    // Referencia el archivo docker-compose
+    "dockerComposeFile": ["../docker-compose.yml"],
+
+    // Servicio principal (dev container) que debe gestionar tu código (DEBES crear un servicio 'dev' en el .yml)
+    "service": "dev", 
+
+    // Le dice a VS Code qué servicios adicionales debe arrancar (mssql)
+    "runServices": ["dev", "mssql"], 
     
-    // Ruta corregida: Debe apuntar a la subcarpeta que contiene el .csproj
-    "workspaceFolder": "/workspace/MiBlazorMudAppSolution",
+    // Abrir la carpeta del proyecto dentro del contenedor
+    "workspaceFolder": "/workspaces/New",
     
-    // Comando para descargar todas las dependencias al iniciar
+    // Montar la carpeta raíz de tu proyecto dentro del contenedor
     "postCreateCommand": "dotnet restore",
     
+    // Instalar extensiones de VS Code automáticamente dentro del contenedor
     "customizations": {
         "vscode": {
             "extensions": [
@@ -99,7 +108,7 @@ Crea la carpeta `.devcontainer` en la raíz de tu proyecto (la carpeta que conti
         }
     },
     
-    // Mapear los puertos para acceder desde el navegador en el host (Ubuntu)
+    // Mapear el puerto para la ejecución
     "forwardPorts": [5000, 5001]
 }
 ```
