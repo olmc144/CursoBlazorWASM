@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # 1. SERVICIO DE DESARROLLO (Referenciado por devcontainer.json)
+  dev:
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    container_name: dev_container
+    volumes:
+      # Monta la carpeta raíz de VS Code en el workspace
+      - ..:/workspaces/:cached 
+    # Mapeo de puertos para el Hot Reload y ejecución de la API
+    ports:
+      - "5062:5062" # Asegúrate de mapear el puerto de tu API aquí también.
+      - "5000:5000"
+      - "5001:5001"
+    command: sleep infinity # Mantiene el contenedor ejecutándose
+
+  # 2. SERVICIO SQL SERVER (Referenciado en runServices)
+  mssql:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: mssql_db
+    environment:
+      # CRUCIAL: Contraseña fuerte. DEBE COINCIDIR con tu cadena de conexión.
+      SA_PASSWORD: "Admin_123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      # Mapeo de puerto para que puedas acceder desde herramientas externas (SSMS, Azure Data Studio)
+      - "1433:1433" 
+    volumes:
+      # Persistencia de datos en tu disco duro (Ubuntu)
+      - sqlserver-data:/var/opt/mssql
+      # CRUCIAL: Añadir esta línea para la ejecución del script
+      - ./sql-init:/docker-entrypoint-initdb.d 
+
+volumes:
+  sqlserver-data: # Define el volumen para guardar los archivos de la BD

@@ -1,0 +1,32 @@
+{
+    "name": ".NET 9 MiBlazorMud Test",
+
+    // Referencia el archivo docker-compose
+    "dockerComposeFile": ["../docker-compose.yml"],
+
+    // Servicio principal (dev container) que debe gestionar tu código (DEBES crear un servicio 'dev' en el .yml)
+    "service": "dev", 
+
+    // Le dice a VS Code qué servicios adicionales debe arrancar (mssql)
+    "runServices": ["dev", "mssql"], 
+    
+    // Abrir la carpeta del proyecto dentro del contenedor
+    "workspaceFolder": "/workspaces/New",
+    
+    // Montar la carpeta raíz de tu proyecto dentro del contenedor
+    "postCreateCommand": "dotnet restore",
+    
+    // Instalar extensiones de VS Code automáticamente dentro del contenedor
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    },
+    
+    // Mapear el puerto para la ejecución
+    "forwardPorts": [5000, 5001]
+}
