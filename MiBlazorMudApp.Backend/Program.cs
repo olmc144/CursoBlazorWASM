@@ -65,7 +65,6 @@ app.MapGet("/weatherforecast", () =>
     var forecast =  Enumerable.Range(1, 5).Select(_ =>
         new WeatherForecast
         (
-            
             Random.Shared.Next(-20, 55)
         ))
         .ToArray();
