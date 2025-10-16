@@ -54,11 +54,15 @@ dotnet sln MiBlazorMudAppSolution.sln add MiBlazorMudApp.Helpers/MiBlazorMudApp.
 # 10. Añadir una referencia de proyecto del Backend al proyecto de la capa de acceso a datos
 dotnet add MiBlazorMudApp.Backend/MiBlazorMudApp.Backend.csproj reference MiBlazorMudApp.AccessData/MiBlazorMudApp.AccessData.csproj
 
+# 11. Instalar dotnet-ef para migraciones
+dotnet tool install --global dotnet-ef --version 9.0.9-*
+export PATH="$PATH:/root/.dotnet/tools"
+
 # 11. Agregar migraciones
-/root/.dotnet/tools/dotnet-ef migrations add InitialMigration
+dotnet ef migrations add InitialMigration
 
 # 12. Actualizar migración
-/root/.dotnet/tools/dotnet-ef database update
+dotnet ef database update
 ```
 
 ### 1.2. Solución de Permisos (Candado 🔒)
