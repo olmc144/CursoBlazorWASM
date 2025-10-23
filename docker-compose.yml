@@ -15,22 +15,34 @@ services:
       - "5001:5001"
     command: sleep infinity # Mantiene el contenedor ejecutándose
 
-  # 2. SERVICIO SQL SERVER (Referenciado en runServices)
+  # 3. SERVICIO FRONTEND (NUEVO)
+  frontend:
+    image: mcr.microsoft.com/dotnet/sdk:9.0 # Puedes usar sdk para desarrollo o aspnet para producción
+    container_name: blazor_frontend
+    working_dir: /app
+    volumes:
+      # Monta la carpeta de tu proyecto Blazor dentro del contenedor
+      - ./MiBlazorMudApp.Frontend:/app
+    ports:
+      # Mapea el puerto 5008 del contenedor al puerto 5008 de tu host
+      - "5008:5008"
+    # Comando para ejecutar el proyecto Blazor en el puerto 5008 y escuchar en 0.0.0.0
+    command: dotnet run --project MiBlazorMudApp.Frontend.csproj --urls "http://0.0.0.0:5008"
+    depends_on:
+      - mssql # El frontend no depende realmente de la DB, pero es una buena práctica de orden.
+
+  # 4. SERVICIO SQL SERVER
   mssql:
     image: mcr.microsoft.com/mssql/server:latest
     container_name: mssql_db
     environment:
-      # CRUCIAL: Contraseña fuerte. DEBE COINCIDIR con tu cadena de conexión.
       SA_PASSWORD: "Admin_123!"
       ACCEPT_EULA: "Y"
     ports:
-      # Mapeo de puerto para que puedas acceder desde herramientas externas (SSMS, Azure Data Studio)
-      - "1433:1433" 
+      - "1433:1433"
     volumes:
-      # Persistencia de datos en tu disco duro (Ubuntu)
       - sqlserver-data:/var/opt/mssql
-      # CRUCIAL: Añadir esta línea para la ejecución del script
-      - ./sql-init:/docker-entrypoint-initdb.d 
+      - ./sql-init:/docker-entrypoint-initdb.d
 
 volumes:
-  sqlserver-data: # Define el volumen para guardar los archivos de la BD
+  sqlserver-data:

@@ -8,7 +8,7 @@
     "service": "dev", 
 
     // Le dice a VS Code qué servicios adicionales debe arrancar (mssql)
-    "runServices": ["dev", "mssql"], 
+    "runServices": ["dev", "frontend", "mssql"], 
     
     // Abrir la carpeta del proyecto dentro del contenedor
     "workspaceFolder": "/workspaces/New",
